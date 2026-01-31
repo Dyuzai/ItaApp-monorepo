@@ -28,5 +28,5 @@ Transformar teoria em prática. Focamos no que o mercado realmente pede:
 ## Mentoria
 ### Este projeto é liderado por:
 
-- Front-end Engeenier: Endryw Lucas [@Dyuzai] - Focado em Front-end e Gestão.
-- Back-end: Bruno Santos [@brunosantosss] - Focado em Arquitetura e Back-end.
+- Front-end Engineer: Endryw Lucas [@Dyuzai] - Focado em Front-end e Gestão.
+- Back-end Engineer: Bruno Santos [@brunosantosss] - Focado em Arquitetura e Back-end.
