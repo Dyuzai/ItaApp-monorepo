@@ -1,0 +1,33 @@
+# @name User_Routes
+# 
+### Read All
+GET http://localhost:3000/users
+
+### Read One
+GET http://locahost:3000/users/1
+
+### Create User
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "name": "jadson",
+  "email": "jadson@email.com",
+  "password": "1234546"
+}
+
+### Update User
+PATCH http://localhost:3000/users/1
+Content-Type: application/json
+
+{
+    "id": 1,
+    "name": "jadson",
+    "email": "jadson@email.com",
+    "password": "123456",
+    "followers": ["1", "2", "3"], //id do seguidor
+    "following": [ "1", "2", "3"], // id do seguido
+    "posts": ["1", "2", "3" ] //posts publicados
+    
+    
+}
