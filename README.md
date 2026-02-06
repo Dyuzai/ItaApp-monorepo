@@ -22,7 +22,7 @@ Transformar teoria em prática. Focamos no que o mercado realmente pede:
 ## Equipe
 
 - Front-end: Samuel
-- Back-end: Ângelo Mikael, Jadson, Bosco
+- Back-end: Ângelo Mikael, Jadson[@httpsJadson], Bosco
 
 
 ## Mentoria
