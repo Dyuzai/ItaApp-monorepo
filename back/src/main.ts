@@ -18,7 +18,7 @@ async function bootstrap() {
     .setTitle('API ItaApp')
     .setDescription('Documentação da API')
     .setVersion('1.0')
-    .addBearerAuth() // remove se não usar JWT
+    // .addBearerAuth() // remove se não usar JWT
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
