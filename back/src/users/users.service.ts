@@ -8,6 +8,8 @@ import {
   NotFoundException,
   InternalServerErrorException,
 } from '@nestjs/common';
+import bcrypt from 'bcryptjs';
+
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService ){}
@@ -15,11 +17,19 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
+      const password = createUserDto.password;
+      const hashPassword = await bcrypt.hash(password, 10);
       const userCreated = await this.prisma.user.create({
         data: {
           email: createUserDto.email,
           name: createUserDto.name,
-          password: createUserDto.password,
+          password: hashPassword,
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          // Exclude password from response
         },
       });
       return userCreated;
@@ -32,12 +42,25 @@ export class UsersService {
   }
 
   async findAll() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        // Exclude password
+      },
+    });
   }
 
   async findOne(id: number) {
     const user = await this.prisma.user.findUnique({
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        // Exclude password
+      },
     });
     if (!user) {
       throw new NotFoundException(`User with ID ${id} not found`);
@@ -47,9 +70,36 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     try {
+      const data: any = {};
+
+      if (updateUserDto.name !== undefined) {
+        data.name = updateUserDto.name;
+      }
+
+      if (updateUserDto.email !== undefined) {
+        // Check if email is already taken by another user
+        const existingUser = await this.prisma.user.findUnique({
+          where: { email: updateUserDto.email },
+        });
+        if (existingUser && existingUser.id !== id) {
+          throw new BadRequestException('Email already exists');
+        }
+        data.email = updateUserDto.email;
+      }
+
+      if (updateUserDto.password !== undefined) {
+        data.password = await bcrypt.hash(updateUserDto.password, 10);
+      }
+
       const updatedUser = await this.prisma.user.update({
         where: { id },
-        data: updateUserDto,
+        data,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          // Exclude password from response
+        },
       });
       return updatedUser;
     } catch (error) {
